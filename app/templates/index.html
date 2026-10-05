@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompuTienda</title>
+</head>
+<body>
+    <h1>CompuTienda</h1>
+    <h2>Productos</h2>
+    <div id="products"></div>
+
+    <script>
+        async function cargarProductos() {
+            const respuesta = await fetch('/api/productos');
+            const productos = await respuesta.json();
+
+            document.getElementById('products').innerHTML =
+                productos.map(p => `
+                    <article>
+                        <h3>${p.nombre}</h3>
+                        <p>Descripción: ${p.descripcion}</p>
+                        <strong>Precio: $${p.precio.toLocaleString('es-CO')}</strong>
+                        <p>Stock: ${p.stock}</p>
+                    </article>
+                `).join('');
+        }
+
+        cargarProductos();
+    </script>
+</body>
+</html>
