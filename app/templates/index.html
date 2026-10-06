@@ -4,29 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CompuTienda</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>CompuTienda</h1>
-    <h2>Productos</h2>
-    <div id="products"></div>
+    <main class="container">
+        <h1>CompuTienda</h1>
+        <p>Sistema transaccional de Compras</p>
 
-    <script>
-        async function cargarProductos() {
-            const respuesta = await fetch('/api/productos');
-            const productos = await respuesta.json();
+        <section class="purchase-panel">
+            <h2>Realizar Compra</h2>
+            <select id="cliente">
+                <option value="1">
+                    Ana Torres
+                </option>
+                <option value="2">
+                    Carlos Pérez
+                </option>
+            </select>            
+            <label for="quantity">Cantidad</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1">
 
-            document.getElementById('products').innerHTML =
-                productos.map(p => `
-                    <article>
-                        <h3>${p.nombre}</h3>
-                        <p>Descripción: ${p.descripcion}</p>
-                        <strong>Precio: $${p.precio.toLocaleString('es-CO')}</strong>
-                        <p>Stock: ${p.stock}</p>
-                    </article>
-                `).join('');
-        }
+            <label>
+                <input type="checkbox" id="failpayment">
+                Simular fallo de pago
+            </label>
+            <label>
+                <input type="checkbox" id="failInvoice">
+                Simular fallo de facturación
+            </label>
+            <button id="buyButton">Comprar</button>
+        </section>
+        <section>
+            <h2>Productos</h2>
+            <div id="products">
+                Cargando productos...
+            </div>
+        </section>
+        <section>
+            <h2>Resultado</h2>
+            <pre id="result">Esperando una compra...</pre>
+        </section>        
+    </main>
 
-        cargarProductos();
-    </script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>        
 </body>
 </html>
